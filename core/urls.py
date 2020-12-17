@@ -1,16 +1,16 @@
 from django.urls import path, reverse
 
 from .views import (
-    home,
+    HomeView,
     checkout,
-    products,
+    ItemDetailView,
 )
 
-# app_name ='core'
+app_name = "core"
 
 urlpatterns = [
-    path('', home, name= 'home-page'),
-    path('checkout/',checkout,name= 'checkout-page'),
-    path('products/',products,name= 'products-page'),
+    path('', HomeView.as_view(), name='home'),
+    path('checkout/',checkout, name= 'checkout'),
+    path('product/<slug>/',ItemDetailView.as_view(), name= 'product')
 
 ]
