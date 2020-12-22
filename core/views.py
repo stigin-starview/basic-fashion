@@ -1,13 +1,33 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from .models import Item, OrderItem, Order
 from django.utils import timezone
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomeView(ListView):
     model = Item
+    #paginate is a field where you could show how many items to be shown in a page.??
+    paginate_by = 10
     template_name = "home.html"
+
+
+# mixing is the login recored way with classes
+class OrderSummaryView(LoginRequiredMixin, View):  
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'object': order
+            }
+            return render(self.request, 'order_summary.html', context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, "Your Cart is Empty")
+            return redirect("/")
+        
 
 class ItemDetailView(DetailView):
     model = Item
@@ -16,6 +36,8 @@ class ItemDetailView(DetailView):
 def checkout(request):
     return render(request, "checkout.html")
 
+
+@login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(
@@ -44,7 +66,7 @@ def add_to_cart(request, slug):
         messages.info(request, "This item is added to your cart ")
     return redirect("core:product", slug=slug)
 
-
+@login_required
 def remove_from_cart (request,slug):
     item = get_object_or_404(Item, slug=slug)
     order_qs = Order.objects.filter(
