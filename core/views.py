@@ -11,13 +11,18 @@ from .forms import CheckoutForm
 
 class CheckoutView(View):
     def get(self, *args, **kwargs):
-        form = CheckoutForm
+        form = CheckoutForm()
         context = {
             'form': form
         }
         return render(self.request, "checkout.html", context)
     
     def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+        if form.is_valid():
+            print(form.cleaned_data)
+            print("the form is valid")
+            return redirect("core:checkout")
 
 
 
