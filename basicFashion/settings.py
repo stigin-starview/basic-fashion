@@ -1,4 +1,5 @@
 import os
+# from decouple import config
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
@@ -102,3 +103,11 @@ LOGIN_REDIRECT_URL = '/'
 #crispy form
 
 CRISPY_TEMPLATE_PACK ='bootstrap4'
+
+
+# stripe payment
+
+
+# STRIPE_PUBLIC_KEY = config('STRIPE_TEST_PUBLIC_KEY')
+# STRIPE_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
+STRIPE_SECRET_KEY = "sk_test_51I2ihwGgo6roXdRNkEMDlXx3Ceg2utiLS8eWqu0NidUuooc69D2uz7jp3vEkJ6uiQ76UNKVPeipJWjFwUc8VfUql00AvznRKrV"

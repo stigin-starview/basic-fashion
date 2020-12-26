@@ -11,8 +11,9 @@ from django.conf import settings
 from .forms import CheckoutForm
 
 import stripe
+# stripe is not working!!!
 # stripe.api_key = settings.STRIPE_SECRET_KEY
-stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+stripe.api_key = 'sk_test_51I2ihwGgo6roXdRNkEMDlXx3Ceg2utiLS8eWqu0NidUuooc69D2uz7jp3vEkJ6uiQ76UNKVPeipJWjFwUc8VfUql00AvznRKrV'
 # "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
 
@@ -53,10 +54,14 @@ class CheckoutView(View):
                 billing_address.save()
                 order.billing_address = billing_address
                 order.save()
-                # TODO add redirect to the selected payment options.
-                return redirect("core:checkout")
-            messages.warning(self.request, "failed to checkout")
-            return redirect("core:checkout")
+                
+                if payment_option == 'S':
+                    return redirect('core:payment', payment_option= 'stripe')
+                elif payment_option =='P':
+                    return redirect('core:payment', payment_option= 'paypal')
+                else:
+                    messages.warning(self.request, "Invalid payment option")
+                    return redirect("core:checkout")
 
         except ObjectDoesNotExist:
             messages.error(self.request, "Your Cart is Empty")
@@ -64,25 +69,31 @@ class CheckoutView(View):
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
-        #order
-        return render(self.request, "payment.html")
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        context = {
+            'order': order
+        }
+        return render(self.request, "payment.html", context)
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         token = self.request.POST.get('stripeToken')
-        amount = order.get_total()
+        amount = int(order.get_total()) * 100
+        print(f'the token send thorugh is {token}')
 
         try:
             charge = stripe.Charge.create(
-                amount= int(amount) * 100, #cents
-                currency="usd",
-                source=token
+                amount= amount,
+                currency= "usd",
+                source= token
+                
+                
             )
                     # Create Payment
             payment = Payment()
             payment.stripe_charge_id = charge['id']
             payment.user = self.request.user
-            payment.amount = amount
+            payment.amount = order.get_total()
             payment.save()
 
             # assign the payment to the order
