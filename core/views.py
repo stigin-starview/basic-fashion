@@ -12,7 +12,7 @@ from .forms import CheckoutForm
 
 import stripe
 # stripe is not working!!!
-# stripe.api_key = settings.STRIPE_SECRET_KEY
+# stripe.api_key = settings.STRIPE_PRIVATE_KEY
 stripe.api_key = 'sk_test_51I2ihwGgo6roXdRNkEMDlXx3Ceg2utiLS8eWqu0NidUuooc69D2uz7jp3vEkJ6uiQ76UNKVPeipJWjFwUc8VfUql00AvznRKrV'
 # "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
@@ -67,11 +67,15 @@ class CheckoutView(View):
             messages.error(self.request, "Your Cart is Empty")
             return redirect("core:order-summary")
 
+
+
 class PaymentView(View):
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         context = {
-            'order': order
+            'order': order,
+            'STRIPE_PUBLIC_KEY' : settings.STRIPE_PUBLIC_KEY
+
         }
         return render(self.request, "payment.html", context)
 
@@ -79,15 +83,26 @@ class PaymentView(View):
         order = Order.objects.get(user=self.request.user, ordered=False)
         token = self.request.POST.get('stripeToken')
         amount = int(order.get_total()) * 100
-        print(f'the token send thorugh is {token}')
+        print(f'order = {order}, \n the token send thorugh is = {token} \n amount = {amount}\n')
 
         try:
+            # find the way to pass in the shipping adress to the cart
+            # when using stripe, by indian standards you need to provide a shpping deatail( like below ) and a description about the product. 
             charge = stripe.Charge.create(
-                amount= amount,
-                currency= "usd",
-                source= token
-                
-                
+                shipping={
+                        'name': 'Jenny Rosen',
+                        'address': {
+                        'line1': '510 Townsend St',
+                        'postal_code': '98140',
+                        'city': 'San Francisco',
+                        'state': 'CA',
+                        'country': 'US',
+                        },
+                    },
+                amount=amount,  # cents
+                currency="usd",
+                description= "this is a test product",
+                source=token
             )
                     # Create Payment
             payment = Payment()
@@ -147,6 +162,7 @@ class PaymentView(View):
         
 
     
+
 
 
 
