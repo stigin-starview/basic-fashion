@@ -11,10 +11,7 @@ from django.conf import settings
 from .forms import CheckoutForm
 
 import stripe
-# stripe is not working!!!
-# stripe.api_key = settings.STRIPE_PRIVATE_KEY
-stripe.api_key = 'sk_test_51I2ihwGgo6roXdRNkEMDlXx3Ceg2utiLS8eWqu0NidUuooc69D2uz7jp3vEkJ6uiQ76UNKVPeipJWjFwUc8VfUql00AvznRKrV'
-# "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
 
 
@@ -83,7 +80,6 @@ class PaymentView(View):
         order = Order.objects.get(user=self.request.user, ordered=False)
         token = self.request.POST.get('stripeToken')
         amount = int(order.get_total()) * 100
-        print(f'order = {order}, \n the token send thorugh is = {token} \n amount = {amount}\n')
 
         try:
             # find the way to pass in the shipping adress to the cart
@@ -112,7 +108,8 @@ class PaymentView(View):
             payment.save()
 
             # assign the payment to the order
-
+            # TODO after assigning the order delete the order item history or,
+                    #  when you add another product it will just show the product as +1 with the last product number.  
             order.ordered = True
             order.payment = payment
             order.save()   
