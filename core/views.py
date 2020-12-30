@@ -57,8 +57,6 @@ class CheckoutView(View):
             )
             if billing_address_qs.exists():
                 context.update({ 'default_billing_address': billing_address_qs[0]})
-
-
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.info(self.request, "Cart is empty")
@@ -67,13 +65,15 @@ class CheckoutView(View):
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
+        test = form.objects.get('shipping_address')
+        print(f'-------- this is the form {test}')
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
 
                 use_default_shipping = form.cleaned_data.get('use_default_shipping')
                 if use_default_shipping:
-                    print("Using the default shippinf address")
+                    print("Using the default shipping address")
                     address_qs = Address.objects.filter(
                     user=self.request.user,
                     address_type='S',
@@ -227,18 +227,22 @@ class PaymentView(View):
 
         try:
             # find the way to pass in the shipping adress to the cart
-            # when using stripe, by indian standards you need to provide a shpping deatail( like below ) and a description about the product. 
+            # when using stripe, by indian standards you need to provide a shpping deatail( like below ) and a description about the product.
+            shipping_address = Order.objects.get('shipping_address') 
             charge = stripe.Charge.create(
-                shipping={
-                        'name': 'Jenny Rosen',
-                        'address': {
-                        'line1': '510 Townsend St',
-                        'postal_code': '98140',
-                        'city': 'San Francisco',
-                        'state': 'CA',
-                        'country': 'US',
-                        },
-                    },
+                # shipping={
+                #         'name': 'Jenny Rosen',
+                #         'address': {
+                #         'line1': '510 Townsend St',
+                #         'postal_code': '98140',
+                #         'city': 'San Francisco',
+                #         'state': 'CA',
+                #         'country': 'US',
+                #             },
+                #         },
+
+                shipping = shipping_address,
+                        
                 amount=amount,  # cents
                 currency="usd",
                 description= "this is a test product",
