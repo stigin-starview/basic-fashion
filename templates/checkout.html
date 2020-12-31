@@ -86,7 +86,7 @@
               {% if default_shipping_address %}
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="use_default_shipping" name="use_default_shipping">
-                <label class="custom-control-label" for="use_default_shipping">use default shipping address: {{ default_shipping_address.streetaddress|truncatechars:10 }}</label>
+                <label class="custom-control-label" for="use_default_shipping">use default shipping address: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
               </div>
               {% endif %}
               <hr>
@@ -95,7 +95,7 @@
 
               <h3>Billing Address </h3>
               
-              <div class='hideable_shipping_form'>
+              <div class='hideable_billing_form'>
 
                 <!--address-->
                 <div class="md-form mb-5">
@@ -200,6 +200,11 @@
     </div>
   </main>
   <!--Main layout-->
+
+  {% block extra_scripts %} 
+  var hideable_shipping_form = $('.hideable_shipping_form')
+
+  {% endblock extra_scripts %}
 
 
   {% endblock %}

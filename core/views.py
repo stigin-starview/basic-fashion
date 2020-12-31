@@ -27,7 +27,7 @@ def is_valid_form(value):
     for fields in value:
         if fields == '':
             valid = False
-            return valid
+    return valid
 
 
 class CheckoutView(View):
@@ -65,12 +65,11 @@ class CheckoutView(View):
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
-        test = form.objects.get('shipping_address')
-        print(f'-------- this is the form {test}')
         try:
+            print("---------------- inside the try block")
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
-
+                print("---------------- inside the if form.isvalid statement")
                 use_default_shipping = form.cleaned_data.get('use_default_shipping')
                 if use_default_shipping:
                     print("Using the default shipping address")
@@ -95,7 +94,7 @@ class CheckoutView(View):
                     # state = form.cleaned_data.get('state')
                     shipping_zip = form.cleaned_data.get('shipping_zip')
 
-                    if is_valid_form([shipping_address1,shipping_address2,shipping_zip]):
+                    if is_valid_form([shipping_address1, shipping_country, shipping_zip]):
 
                         shipping_address = Address(
                             user=self.request.user,
