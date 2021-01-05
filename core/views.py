@@ -16,6 +16,8 @@ import string
 import stripe
 stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
+# google integrated login method to be implimented
+
 
 def create_ref_code():
     # 'k' is the special argument to determine the length of the string
