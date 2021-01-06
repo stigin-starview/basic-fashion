@@ -17,6 +17,7 @@ import stripe
 stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
 # google integrated login method to be implimented
+# facbook ingegration ? if needed 
 
 
 def create_ref_code():
