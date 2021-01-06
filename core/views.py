@@ -232,18 +232,18 @@ class PaymentView(View):
             # when using stripe, by indian standards you need to provide a shpping deatail( like below ) and a description about the product.
             shipping_address = Order.objects.get('shipping_address') 
             charge = stripe.Charge.create(
-                # shipping={
-                #         'name': 'Jenny Rosen',
-                #         'address': {
-                #         'line1': '510 Townsend St',
-                #         'postal_code': '98140',
-                #         'city': 'San Francisco',
-                #         'state': 'CA',
-                #         'country': 'US',
-                #             },
-                #         },
+                shipping={
+                        'name': 'Jenny Rosen',
+                        'address': {
+                        'line1': '510 Townsend St',
+                        'postal_code': '98140',
+                        'city': 'San Francisco',
+                        'state': 'CA',
+                        'country': 'US',
+                            },
+                        },
 
-                shipping = shipping_address,
+                # shipping = shipping_address,
                         
                 amount=amount,  # cents
                 currency="usd",
