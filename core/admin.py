@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Item, OrderItem, Order, Payment, Coupon, Refund, Address
+from .models import Item, OrderItem, Order, Payment, Coupon, Refund, Address, UserProfile
 
 # To make custom actions in admin
 # TODO: try to make processing, shipping, out for delivery, delivered, recieved actions!!!!!
@@ -64,3 +64,4 @@ admin.site.register(Payment)
 admin.site.register(Coupon)
 admin.site.register(Refund)
 admin.site.register(Address, AddressAdmin)
+admin.site.register(UserProfile)
