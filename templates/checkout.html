@@ -182,11 +182,8 @@
         <div class="col-md-4 mb-4">
             {% include "order_snippet.html" %}
            
-          </div>
-              <!-- Promo code -->
-
-
         </div>
+              <!-- Promo code -->
 
       </div>
       <!--Grid row-->
@@ -196,8 +193,37 @@
   <!--Main layout-->
 
   {% block extra_scripts %} 
-    <script>
-      var hideable_shipping_form = $('.hideable_shipping_form');
+    <script> 
+      // accessing the information using jquery selector --- this is not working
+      // var hideable_shipping_form = $('.hideable_shipping_form');
+      // var hideable_billing_form = $('.hideable_billing_form');
+      var hideable_shipping_form = document.querySelector('.hideable_shipping_form');
+      var hideable_billing_form = document.querySelector('.hideable_billing_form');
+
+      var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+      var use_default_billing = document.querySelector("input[name=use_default_billing]");
+
+      use_default_shipping.addEventListener('change', function() {
+        if (this.checked)
+        {
+          hideable_shipping_form.style.display="none";
+        }
+        else
+        {
+          hideable_shipping_form.style.display="block";
+        }
+      })
+      use_default_billing.addEventListener('change', function() {
+        if (this.checked)
+        {
+          hideable_billing_form.style.display="none";
+        }
+        else
+        {
+          hideable_billing_form.style.display="block";
+        }
+      })
+
     </script>
   {% endblock extra_scripts %}
 

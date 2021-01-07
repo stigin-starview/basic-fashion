@@ -251,7 +251,7 @@ function stripeTokenHandler(token) {
 
   var currentCardForm = $('.current-card-form');
   var newCardForm = $('.new-card-form');
-  var use_default_card = document.querySelector("input[name=use_default_card]");
+  var use_default_card = document.querySelector("input[name=save]");
   use_default_card.addEventListener('change', function() {
     if (this.checked) {
       newCardForm.hide();
