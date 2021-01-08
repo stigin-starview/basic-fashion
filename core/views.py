@@ -266,6 +266,7 @@ class PaymentView(View):
             amount = int(order.get_total()) * 100
 
             try:
+                # the stripe account save card fucntion is not working revert it back with git version control.
                 # find the way to pass in the shipping adress to the cart
                 # when using stripe, by indian standards you need to provide a shpping deatail( like below ) and a description about the product.
             
