@@ -198,7 +198,7 @@ class CheckoutView(View):
             return redirect("core:order-summary")
 
 
-
+# make the stripe account back to normal and try to revert the card save function.
 class PaymentView(View):
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
