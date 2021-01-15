@@ -198,7 +198,7 @@ class CheckoutView(View):
             return redirect("core:order-summary")
 
 
-# make the stripe account back to normal and try to revert the card save function.
+# impliment the card info save function with stripe
 class PaymentView(View):
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
@@ -209,20 +209,20 @@ class PaymentView(View):
                 'DISPLAY_COUPON_FORM': False,
                 'STRIPE_PUBLIC_KEY' : settings.STRIPE_PUBLIC_KEY
             }
-            userprofile = self.request.user.userprofile
-            if userprofile.one_click_purchasing:
-                # fetch the users card list
-                cards = stripe.Customer.list_sources(
-                    userprofile.stripe_customer_id,
-                    limit=3,
-                    object='card'
-                )
-                card_list = cards['data']
-                if len(card_list) > 0:
-                    # update the context with the default card
-                    context.update({
-                        'card': card_list[0]
-                    })
+            # userprofile = self.request.user.userprofile
+            # if userprofile.one_click_purchasing:
+            #     # fetch the users card list
+            #     cards = stripe.Customer.list_sources(
+            #         userprofile.stripe_customer_id,
+            #         limit=3,
+            #         object='card'
+            #     )
+            #     card_list = cards['data']
+            #     if len(card_list) > 0:
+            #         # update the context with the default card
+            #         context.update({
+            #             'card': card_list[0]
+            #         })
             return render(self.request, "payment.html", context)
         else:
             messages.warning(
@@ -270,26 +270,26 @@ class PaymentView(View):
         #     find the way to pass in the shipping adress to the cart
         #     when using stripe, by indian standards you need to provide a shpping deatail( like below ) and a description about the product.
         
-            shipping_address = Order.objects.get('shipping_address') 
+            # shipping_address = Order.objects.get('shipping_address') 
             charge = stripe.Charge.create(
-                shipping={
-                        'name': 'Jenny Rosen',
-                        'address': {
-                        'line1': '510 Townsend St',
-                        'postal_code': '98140',
-                        'city': 'San Francisco',
-                        'state': 'CA',
-                        'country': 'US',
-                            },
-                        },
+                        shipping={
+                                'name': 'Jenny Rosen',
+                                'address': {
+                                'line1': '510 Townsend St',
+                                'postal_code': '98140',
+                                'city': 'San Francisco',
+                                'state': 'CA',
+                                'country': 'US',
+                                    },
+                                },
 
-                # shipping = shipping_address,
-                        
-                amount=amount,  # cents
-                currency="usd",
-                description= "this is a test product",
-                source=token
-            )
+                        # shipping = shipping_address,
+                                
+                        amount=amount,  # cents
+                        currency="usd",
+                        description= "this is a test product",
+                        source=token
+                        )
 
             # if use_default or save:
             #     # charge the customer once because we cannot charge the token more than once
@@ -307,13 +307,12 @@ class PaymentView(View):
             #     )
 
 
-                    # Create Payment
+            # Create Payment
             payment = Payment()
             payment.stripe_charge_id = charge['id']
             payment.user = self.request.user
             payment.amount = order.get_total()
             payment.save()
-
 
             # assign the payment to the order
             
@@ -326,7 +325,7 @@ class PaymentView(View):
             order.ordered = True
             order.payment = payment
             order.ref_code = create_ref_code()
-            order.save()   
+            order.save()
             messages.success(self.request, " Your order was successful")
             return redirect("/")
 
