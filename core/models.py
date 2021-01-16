@@ -6,7 +6,6 @@ from django.db.models.signals import post_save
 
 
 
-
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
     ('T', 'Tshirts'),
@@ -170,9 +169,6 @@ class Payment(models.Model):
         return self.user.username
 
 
-
-
-
 class Coupon(models.Model):
     code = models.CharField(max_length=15)
     amount = models.FloatField()
@@ -190,7 +186,6 @@ class Refund(models.Model):
 
     def __str__(self):
         return f'{self.pk}'
-
 
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):

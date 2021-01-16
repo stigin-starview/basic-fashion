@@ -371,12 +371,6 @@ class PaymentView(View):
 
         
 
-    
-
-
-
-
-
 class HomeView(ListView):
     model = Item
     #paginate is a field where you could show how many items to be shown in a page.??

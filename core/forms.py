@@ -44,7 +44,6 @@ class CheckoutForm(forms.Form):
                     widget=forms.RadioSelect, choices=PAYMENT_METHODS)
 
 
-
 class CouponForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
@@ -52,7 +51,6 @@ class CouponForm(forms.Form):
         'aria-label': 'Recipient\'s username',
         'aria-describedby': 'basic-addon2',
     }))
-
 
 
 class RefundForm(forms.Form):
