@@ -12,6 +12,7 @@ CATEGORY_CHOICES = (
     ('P', 'Pants'),
     ('SH', 'Shoe'),
     ('J', 'Jeans'),
+    ('WD','Womens dress')
     
 )
 
