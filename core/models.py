@@ -15,10 +15,12 @@ CATEGORY_CHOICES = (
     ('WD','Womens dress'),
     ('SKRT',"Skirt"),
     ('HOD','Hoodie'),
-    ('SAR','Saree')
+    ('SAR','Saree'),
+    ('SHO','Shorts'),
+
     
 )
-
+# change the label names to colors and add if conditions in html to use the names for colors?
 LABEL_CHOICES = (
     ('P', 'primary'),
     ('S', 'secondary'),
