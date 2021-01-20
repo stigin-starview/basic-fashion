@@ -16,7 +16,11 @@ CATEGORY_CHOICES = (
     ('SKRT',"Skirt"),
     ('HOD','Hoodie'),
     ('SAR','Saree'),
-    ('SHO','Shorts'),
+    ('SOR','Shorts'),
+    ('SUT','Suits'),
+    ('FOT','Foot Wears'),
+
+
 
     
 )
