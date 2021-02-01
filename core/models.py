@@ -21,7 +21,8 @@ CATEGORY_CHOICES = (
     ('FOT','Foot Wears'),
     ('INR','Inner wears'),
 	('WIN', 'Winter Wears'),
-	('BCH','Beach Wear')
+	('BCH','Beach Wear'),
+	('sum','Summer wears'),
 
 
 
