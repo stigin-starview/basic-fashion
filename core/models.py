@@ -22,7 +22,8 @@ CATEGORY_CHOICES = (
     ('INR','Inner wears'),
 	('WIN', 'Winter Wears'),
 	('BCH','Beach Wear'),
-	('sum','Summer wears'),
+	('SUM','Summer wears'),
+	('MUN','Mundu'),
 
 
 
