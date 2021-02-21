@@ -24,6 +24,7 @@ CATEGORY_CHOICES = (
 	('BCH','Beach Wear'),
 	('SUM','Summer wears'),
 	('MUN','Mundu'),
+	('CAP','Caps'),
 
 
 
