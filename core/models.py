@@ -25,6 +25,7 @@ CATEGORY_CHOICES = (
 	('SUM','Summer wears'),
 	('MUN','Mundu'),
 	('CAP','Caps'),
+	('IND','Indian Wear'),
 
 
 
