@@ -19,13 +19,14 @@ CATEGORY_CHOICES = (
     ('SOR','Shorts'),
     ('SUT','Suits'),
     ('FOT','Foot Wears'),
-    ('INR','Inner wears'),
+    ('INM','Inner wears for Men'),
 	('WIN', 'Winter Wears'),
 	('BCH','Beach Wear'),
 	('SUM','Summer wears'),
 	('MUN','Mundu'),
 	('CAP','Caps'),
 	('IND','Indian Wear'),
+	('INF','Inner Wears for woman')
 
 
 
