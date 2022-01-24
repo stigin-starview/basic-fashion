@@ -132,8 +132,6 @@ class CheckoutView(View):
                     order.billing_address = billing_address
                     order.save()
 
-
-
                 elif use_default_billing:
 
                     address_qs = Address.objects.filter(
@@ -196,7 +194,6 @@ class CheckoutView(View):
         except ObjectDoesNotExist:
             messages.warning(self.request, "Your Cart is Empty")
             return redirect("core:order-summary")
-
 
 # impliment the card info save function with stripe
 class PaymentView(View):
@@ -320,7 +317,6 @@ class PaymentView(View):
             order_items.update(ordered=True)
             for item in order_items:
                 item.save()
-
 
             order.ordered = True
             order.payment = payment
@@ -552,10 +548,3 @@ class RequestRefundView(View):
             except ObjectDoesNotExist:
                 messages.info(self.request, " This order does not exist.")
                 return redirect("core:request-refund")
-
-
-
-
-
-
-
